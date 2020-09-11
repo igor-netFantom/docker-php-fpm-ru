@@ -1,11 +1,5 @@
 FROM php:7.3-fpm
 
-ARG USER_ID
-ARG GROUP_ID
-
-ENV TZ=Europe/Moscow
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 RUN apt-get update && apt-get install -y \
         unzip procps git curl wget locales \
         zlib1g-dev g++ libmagickwand-dev --no-install-recommends libxml2-dev libzip-dev \
@@ -21,11 +15,18 @@ RUN apt-get update && apt-get install -y \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 
-
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN wget https://getcomposer.org/installer -O - -q \
     | php -- --install-dir=/bin --filename=composer --quiet
+
+ARG USER_ID
+ENV USER_ID ${USER_ID:-1000}
+ARG GROUP_ID
+ENV GROUP_ID ${GROUP_ID:-1000}
+
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN sed -i -e \
   's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
