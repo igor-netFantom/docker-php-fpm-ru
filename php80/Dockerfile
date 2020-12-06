@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install intl sockets xml imap zip mbstring gd pdo_mysql \
+    && docker-php-ext-install intl sockets xml imap zip gd pdo_mysql \
     && pecl install memcache \
     && docker-php-ext-enable memcache \
     && pecl install imagick \
