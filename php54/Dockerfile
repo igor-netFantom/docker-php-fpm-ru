@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable memcache \
     && pecl install imagick \
     && docker-php-ext-enable imagick
+    
+RUN docker-php-ext-install mysql
 
 RUN pecl install xdebug-2.4.1 && docker-php-ext-enable xdebug
 
