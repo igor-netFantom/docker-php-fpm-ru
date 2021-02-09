@@ -1,4 +1,4 @@
-FROM php:5.4-fpm
+FROM php:5.3-fpm
 
 RUN apt-get update && apt-get install -y \
         unzip procps git curl wget locales \
