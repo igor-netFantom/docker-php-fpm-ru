@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
     
 RUN docker-php-ext-install mysql
 
+RUN docker-php-ext-install mysqli
+
 RUN pecl install xdebug-2.4.1 && docker-php-ext-enable xdebug
 
 RUN wget https://getcomposer.org/installer -O - -q \
