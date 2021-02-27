@@ -1,6 +1,6 @@
 FROM php:7.2-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
         unzip procps git curl wget locales \
         zlib1g-dev g++ libmagickwand-dev --no-install-recommends libxml2-dev libzip-dev \
         libjpeg-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
