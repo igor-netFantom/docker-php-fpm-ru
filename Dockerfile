@@ -65,6 +65,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
 
 RUN apk del build-deps
+RUN apk add bash
 
 WORKDIR /var/www
 
