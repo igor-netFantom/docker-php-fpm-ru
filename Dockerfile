@@ -1,15 +1,13 @@
 FROM php:7.2-fpm-alpine
 
-RUN apk --update --virtual build-deps add \
+RUN apk --no-cache --virtual build-deps add \
     autoconf \
     make \
     gcc \
     g++ \
     libtool \
-    icu-dev \
     curl-dev \
     freetype-dev \
-    imagemagick-dev \
     libmemcached-dev \
     libzip-dev \
     pcre-dev \
@@ -24,10 +22,13 @@ RUN apk add --no-cache \
     git \
     curl \
     wget \
+    icu-dev \
+    imagemagick-dev \
     freetype \
     libpng \
     libjpeg-turbo \
     libxml2 \
+    bash \
     imap-dev
 #        zlib1g-dev g++ imagemagick-dev libxml2-dev libzip-dev \
 #        libmemcached-dev libkrb5-dev \
@@ -65,7 +66,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
 
 RUN apk del build-deps
-RUN apk add bash
 
 WORKDIR /var/www
 
