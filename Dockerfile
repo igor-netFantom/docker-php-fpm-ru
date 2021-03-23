@@ -65,7 +65,7 @@ RUN apk --update --no-cache --virtual build-deps add \
     && docker-php-ext-enable xdebug \
     && apk del build-deps
 
-RUN deluser www-data && adduser -D -H -u 1000 -s /bin/bash www-data
+RUN deluser www-data && adduser -d /var/www -H -u 1000 -s /bin/bash www-data
 
 RUN wget https://getcomposer.org/installer -O - -q \
     | php -- --install-dir=/bin --filename=composer --quiet
