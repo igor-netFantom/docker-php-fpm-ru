@@ -55,6 +55,8 @@ RUN apk --update --no-cache --virtual build-deps add \
     mbstring \
     gd \
     pdo_mysql \
+    mysqli \
+    exif \
     && pecl install -f memcache-2.2.3 \
     && docker-php-ext-enable memcache \
     && pecl install imagick \
