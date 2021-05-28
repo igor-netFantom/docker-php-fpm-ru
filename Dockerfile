@@ -62,8 +62,7 @@ RUN apk --update --no-cache --virtual build-deps add \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && pecl install -f xdebug-2.5.5 \
-    && docker-php-ext-enable xdebug \
-    && apk del build-deps
+    && docker-php-ext-enable xdebug
 
 RUN deluser www-data && adduser -D -h /var/www -u 1000 -s /bin/bash www-data
 
