@@ -20,6 +20,10 @@ RUN apk --update --no-cache --virtual build-deps add \
     icu-dev \
     zlib-dev \
     curl-dev \
+    imagemagick-dev \
+    freetype-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
     libxml2-dev && apk add --update --no-cache \
     unzip \
     procps \
@@ -34,13 +38,9 @@ RUN apk --update --no-cache --virtual build-deps add \
     zlib \
     curl \
     imagemagick \
-    imagemagick-dev \
     freetype \
     libpng \
     libjpeg-turbo \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
     libxml2 \
 #    zlib1g-dev libkrb5-dev \
     && docker-php-ext-configure intl \
@@ -62,7 +62,8 @@ RUN apk --update --no-cache --virtual build-deps add \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && pecl install -f xdebug-2.5.5 \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && apk del build-deps
 
 RUN deluser www-data && adduser -D -h /var/www -u 1000 -s /bin/bash www-data
 
