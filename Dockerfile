@@ -20,9 +20,6 @@ RUN apk --update --no-cache --virtual build-deps add \
     icu-dev \
     zlib-dev \
     curl-dev \
-    freetype-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
     libxml2-dev && apk add --update --no-cache \
     unzip \
     procps \
@@ -41,6 +38,9 @@ RUN apk --update --no-cache --virtual build-deps add \
     freetype \
     libpng \
     libjpeg-turbo \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
     libxml2 \
 #    zlib1g-dev libkrb5-dev \
     && docker-php-ext-configure intl \
