@@ -20,7 +20,6 @@ RUN apk --update --no-cache --virtual build-deps add \
     icu-dev \
     zlib-dev \
     curl-dev \
-    imagemagick-dev \
     freetype-dev \
     libpng-dev \
     libjpeg-turbo-dev \
@@ -38,6 +37,7 @@ RUN apk --update --no-cache --virtual build-deps add \
     zlib \
     curl \
     imagemagick \
+    imagemagick-dev \
     freetype \
     libpng \
     libjpeg-turbo \
