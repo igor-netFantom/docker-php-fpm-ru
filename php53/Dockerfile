@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:5.3-fpm
 
 RUN apt-get update && apt-get install -y \
         unzip procps git curl wget locales \
@@ -10,12 +10,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install intl sockets xml imap zip mbstring gd pdo_mysql \
-    && pecl install -f memcache-4 \
+    && pecl install memcache-2.2.3 \
     && docker-php-ext-enable memcache \
     && pecl install imagick \
     && docker-php-ext-enable imagick
+    
+RUN docker-php-ext-install mysql
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.4.1 && docker-php-ext-enable xdebug
 
 RUN wget https://getcomposer.org/installer -O - -q \
     | php -- --install-dir=/bin --filename=composer --quiet
