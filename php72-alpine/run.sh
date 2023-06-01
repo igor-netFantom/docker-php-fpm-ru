@@ -1,0 +1,1 @@
+docker run --name php7.2-alpine-test -it --rm netfantom/php-fpm-ru:7.2-alpine bash

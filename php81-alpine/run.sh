@@ -1,0 +1,1 @@
+docker run --name php81-alpine-test -it --rm netfantom/php-fpm-ru:8.1-alpine bash

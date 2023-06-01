@@ -1,41 +1,52 @@
 FROM php:5.5-fpm
 
-RUN apt-get update && apt-get install -y \
-        unzip procps git curl wget locales \
-        zlib1g-dev g++ libmagickwand-dev --no-install-recommends libxml2-dev libzip-dev \
-        libjpeg-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
-        libicu-dev libmemcached-dev libc-client-dev libkrb5-dev \
-    && rm -r /var/lib/apt/lists/* \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install intl sockets xml imap zip mbstring gd pdo_mysql exif mysqli \
-    && pecl install memcache-2.2.3 \
-    && docker-php-ext-enable memcache \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick
-
-RUN pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug
-
-RUN wget https://getcomposer.org/installer -O - -q \
-    | php -- --install-dir=/bin --filename=composer --quiet
-
 ARG USER_ID
 ENV USER_ID ${USER_ID:-1000}
 ARG GROUP_ID
 ENV GROUP_ID ${GROUP_ID:-1000}
+ARG MEMCACHE_VERSION
+ENV MEMCACHE_VERSION ${MEMCACHE_VERSION:-2.2.3}
+ARG XDEBUG_VERSION
+ENV XDEBUG_VERSION ${XDEBUG_VERSION:-2.5.5}
 
 ENV TZ=Europe/Moscow
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-RUN sed -i -e \
-  's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
-   && locale-gen
 
 ENV LANG ru_RU.UTF-8
 ENV LANGUAGE ru_RU:ru
 ENV LC_LANG ru_RU.UTF-8
 ENV LC_ALL ru_RU.UTF-8
+
+COPY ../install-ubuntu-packages.sh /root/
+
+RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" >> /etc/apt/sources.list
+RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
+#RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+RUN sed -i '/jessie-updates/d' /etc/apt/sources.list
+RUN sed -i '/jessie-main/d' /etc/apt/sources.list
+RUN sed -i '/jessie\/main/d' /etc/apt/sources.list
+RUN sed -i '/jessie\/updates/d' /etc/apt/sources.list
+#RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf
+#RUN echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until
+RUN apt-get update
+
+#RUN rm /etc/apt/sources.list
+#RUN echo "deb http://archive.debian.org/debian-security jessie/updates main" > /etc/apt/sources.list.d/jessie.list
+#RUN apt-get update
+#RUN echo 'deb http://archive.debian.org/debian-security jessie/updates main' > /etc/apt/sources.list.d/jessie-backports.list
+
+
+#RUN apt-get -o Acquire::Check-Valid-Until=false update
+
+RUN sh /root/install-ubuntu-packages.sh
+
+RUN wget https://getcomposer.org/installer -O - -q \
+    | php -- --install-dir=/bin --filename=composer --quiet
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN sed -i -e \
+  's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
+   && locale-gen
 
 RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
 

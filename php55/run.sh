@@ -1,0 +1,1 @@
+docker run --name php55-test -it --rm netfantom/php-fpm-ru:5.5 bash
