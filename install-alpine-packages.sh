@@ -55,9 +55,9 @@ apk --update --no-cache --virtual build-deps add \
     pdo_mysql \
     mysqli \
     exif \
-    && pecl install -f memcache-${MEMCACHE_VERSION} && docker-php-ext-enable memcache \
+    && pecl install memcache${MEMCACHE_VERSION:+-$MEMCACHE_VERSION} && docker-php-ext-enable memcache \
     && pecl install imagick && docker-php-ext-enable imagick \
-    && pecl install xdebug-${XDEBUG_VERSION} && docker-php-ext-enable xdebug \
+    && pecl install xdebug${XDEBUG_VERSION:+-$XDEBUG_VERSION} && docker-php-ext-enable xdebug \
     && usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data \
     && echo '# IF YOU WANT TO CHANGE HOME DIR: && usermod -d /var/www www-data' \
     && apk del build-deps

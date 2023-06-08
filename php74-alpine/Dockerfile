@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 ARG USER_ID
 ENV USER_ID ${USER_ID:-1000}
@@ -23,9 +23,9 @@ WORKDIR /var/www
 
 USER "${USER_ID}:${GROUP_ID}"
 
-RUN composer global require "squizlabs/php_codesniffer=*" phpmd/phpmd phpunit/phpunit --no-interaction
-
-ENV PATH="${PATH}:/home/www-data/.composer/vendor/bin"
+#RUN composer global require "squizlabs/php_codesniffer=*" phpmd/phpmd phpunit/phpunit --no-interaction
+#
+#ENV PATH="${PATH}:/home/www-data/.composer/vendor/bin"
 
 COPY ../.bashrc /home/www-data
 
