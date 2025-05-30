@@ -32,6 +32,7 @@ apk --update --no-cache --virtual build-deps add \
 \
     openssl \
     icu \
+    libpq-dev \
     libzip \
     curl \
     imagemagick \
@@ -43,6 +44,7 @@ apk --update --no-cache --virtual build-deps add \
     && echo 'could be helpful: zlib1g-dev libkrb5-dev' \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure imap --with-imap --with-imap-ssl \
     && docker-php-ext-install \
     intl \
@@ -53,8 +55,11 @@ apk --update --no-cache --virtual build-deps add \
     mbstring \
     gd \
     pdo_mysql \
+    pgsql \
+    pdo_pgsql \
     mysqli \
     exif \
+    opcache \
     && pecl install memcache${MEMCACHE_VERSION:+-$MEMCACHE_VERSION} && docker-php-ext-enable memcache \
     && pecl install imagick && docker-php-ext-enable imagick \
     && pecl install xdebug${XDEBUG_VERSION:+-$XDEBUG_VERSION} && docker-php-ext-enable xdebug \
